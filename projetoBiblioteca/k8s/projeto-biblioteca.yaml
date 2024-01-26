@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: projetobiblioteca
+  labels:
+    app: projetobiblioteca
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: projetobiblioteca
+  template:
+    metadata:
+      name: projetobiblioteca-apo
+      labels:
+        app: projetobiblioteca
+    spec:
+      containers:
+        - name: projetobiblioteca
+          image: ajalves1911/projetobiblio:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: dados
+                  key: POSTGRES_USER
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: dados
+                  key: POSTGRES_DB
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: senhas
+                  key: POSTGRES_PASSWORD
+
+
+
+
+      

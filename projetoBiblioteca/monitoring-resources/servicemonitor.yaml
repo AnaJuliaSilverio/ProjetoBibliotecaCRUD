@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: internal-service-monitor
+  labels:
+    app: projetobiblioteca
+spec:
+  selector:
+    matchLabels:
+      app: projetobiblioteca
+  endpoints:
+    - port: web
+      scheme: http
+      path: "/actuator/prometheus"
+  namespaceSelector:
+    matchNames:
+      - default
+
+
+
