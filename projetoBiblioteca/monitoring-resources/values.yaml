@@ -1,13 +1,58 @@
 prometheus:
   prometheusSpec:
+    additionalScrapeConfigs:
+      - job_name: 'blackbox'
+        metrics_path: /probe
+        params:
+          module: [http_2xx]
+        static_configs:
+          - targets:
+              - http://10.96.219.48:8080/boo  # Target to probe with http.
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: prometheus-blackbox-exporter.default:9115
     serviceMonitorSelectorNilUsesHelmValues: false
     serviceMonitorSelector: {}
     serviceMonitorNamespaceSelector: {}
-    scrapeTimeout: "90s"
-    scrapeInterval: "90s"
+    ruleSelector:
+      matchExpressions:
+        - key: prometheus
+          operator: In
+          values:
+            - example-rules
 
+blackboxExporter:
+  enabled: true
 
 grafana:
   sidecar:
     datasources:
       defaultDatasourceEnabled: true
+
+alertmanager:
+  enabled: true
+  config:
+    global:
+      resolve_timeout: 1m
+    route:
+      receiver: 'null'
+      group_by: ['alertname']
+      group_wait: 30s
+      group_interval: 1m
+      repeat_interval: 2m
+      routes:
+        - receiver: 'null'
+          continue: true
+        
+  receivers:
+     
+    - name: 'null'
+      webhook_configs:
+        - url: 
+      send_resolved: true
+
+

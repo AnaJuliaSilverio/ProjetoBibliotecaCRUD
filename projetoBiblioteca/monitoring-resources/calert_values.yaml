@@ -1,0 +1,4 @@
+configmap:
+  rooms: |
+    [app.chat.cluster001-alerts]
+    notification_url = "https://chat.googleapis.com/v1/spaces/AAAA0H3XTzw/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=5_BysJpYS1XNA8oONbpqEM7UQNF4R0sh5VWYUZZTKYQ"

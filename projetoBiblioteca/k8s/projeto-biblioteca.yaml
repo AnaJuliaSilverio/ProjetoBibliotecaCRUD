@@ -35,7 +35,7 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: senhas
+                  name: secrets-projetobiblio
                   key: POSTGRES_PASSWORD
 
 

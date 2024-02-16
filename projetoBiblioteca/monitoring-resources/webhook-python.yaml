@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webhook
+  labels:
+    app: webhook-python
+spec:
+  containers:
+  - name: meu-container
+    image: ajalves1911/webhook-python
+    ports:
+    - containerPort: 8082
